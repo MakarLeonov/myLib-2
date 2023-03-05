@@ -1,0 +1,30 @@
+
+
+$red: #F0474A;
+$white: #edf5e1;
+$orange: #FDAF1A;
+$blue: #0B91CD;
+$darkBlue: #0E3A5D;
+
+$darkBlueFon: #152A3D;
+$darlBlueFon2: #294e7478;
+
+.darkTheme {
+    background-color: $darkBlueFon;
+    color: $white;
+}
+
+.darkTheme2 {
+    background-color: $darlBlueFon2;
+    color: $white;
+}
+
+.lightTheme {
+    background-color: $red;
+    color: $white;
+}
+
+.lightTheme2 {
+    background-color: $red;
+    color: $white;
+}
