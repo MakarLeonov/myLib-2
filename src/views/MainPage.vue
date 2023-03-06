@@ -5,8 +5,10 @@
     </div>
 </template>
 <script>
-import bookList from '@/components/bookList.vue'
 import { mapGetters } from 'vuex'
+import bookList from '@/components/bookList/bookList.vue'
+
+
 export default {
     name: 'MainPage',
     components: {
@@ -35,7 +37,7 @@ export default {
     text-align: center;
     font-size: 34px;
     color: $white;
-    opacity: .9;
+    // opacity: .9;
     font-weight: 400;
     margin-bottom: 3px;
 }

@@ -1,11 +1,23 @@
 <template>
-  <div class="asd">
+  <div>
+    <div class="asd" @click="this.$store.commit('changePopupActive')"> Open popup </div>
     <div class="wrapper">
     
-    <router-view/>
-  </div>
+      <router-view/>
+    </div>
+    <popup />
   </div>
 </template>
+
+<script>
+import popup from '@/components/popup.vue'
+
+export default {
+  components: {
+    popup,
+  }
+}
+</script>
 
 <style lang="scss">
 @import '@/assets/variables.scss';
@@ -27,4 +39,6 @@ body {
   margin: 0 auto;
   padding-top: 100px;
 }
+
+
 </style>

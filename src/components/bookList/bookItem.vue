@@ -1,7 +1,7 @@
 <template>
     <div class="item" @click="showInfo = !showInfo">
         <div class="book">
-            <div class="number">1.</div>
+            <!-- <div class="number">{{ key }}.</div> -->
             <div class="title">{{ book.title }}</div>
             <div class="author">{{ book.author }}</div>
             <div class="stars">
@@ -11,7 +11,7 @@
 
         <Transition name="slide-fade">
             <span class="item-info" v-if="showInfo">
-                <div class="note">{{ book.notes }}</div>
+                <div class="note">{{ book.note }}</div>
                 <div class="dop-info">
                     <div class="item-status">Статус: {{ book.status }}</div>
                     <div class="date-info">{{ book.date }}</div>
@@ -26,7 +26,7 @@ export default {
     name: 'bookItem',
     data() {
         return {
-            showInfo: true,
+            showInfo: false,
         }
     },
 

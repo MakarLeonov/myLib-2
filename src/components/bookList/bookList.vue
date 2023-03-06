@@ -13,7 +13,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import bookItem from './bookItem.vue'
+import bookItem from '@/components/bookList/bookItem.vue'
 export default {
     name: 'bookList',
     components: { bookItem },
@@ -40,6 +40,7 @@ export default {
     display: flex;
     justify-content: center;
     align-items: start;
+    opacity: .9;
 
     .bookList {
         width: 100%;
