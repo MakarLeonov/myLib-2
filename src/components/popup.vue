@@ -16,17 +16,26 @@
                     <div class="form_group">
                         <label>Название книги: </label>
                         <input type="text" v-model="title">
-                    </div>
+                    </div>           
+                    <transition>
+                        <p v-if="v$.title.$error" class="error_title">Это поле обязательно для заполнения</p>
+                    </transition>
 
                     <div class="form_group">
                         <label>Автор книги: </label>
                         <input type="text" v-model="author">
-                    </div>
+                    </div>           
+                    <transition>
+                        <p v-if="v$.author.$error" class="error_title">Это поле обязательно для заполнения</p>
+                    </transition>
 
                     <div class="form_group">
                         <label>Дата прочтения: </label>
                         <input type="date" v-model="date">
-                    </div>
+                    </div>           
+                    <transition>
+                        <p v-if="v$.date.$error" class="error_title">Это поле обязательно для заполнения</p>
+                    </transition>
 
                     <div class="form_group">
                         <label>Статус книги: </label>
@@ -39,7 +48,10 @@
                                     {{option}}
                             </option>
                         </select>
-                    </div>
+                    </div>           
+                    <transition>
+                        <p v-if="v$.status.$error" class="error_title">Это поле обязательно для заполнения</p>
+                    </transition>
 
                     <br>
 
@@ -49,7 +61,6 @@
                     </div>
                     <label class="textarea_label">Мой комментарий:</label>
                     <textarea class="textarea" v-model="note"></textarea>
-                    
                     <button @click.prevent="addNewBook">Добавить книгу</button>
                     
                 </form>
@@ -61,11 +72,12 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 export default {
-
-
     data() {
         return {
+            v$: useVuelidate(),
             title: '',
             author: '',
             date: '',
@@ -76,35 +88,57 @@ export default {
         }
     },
 
+    validations() {
+        return {
+            title: { required },
+            author: { required },
+            date: { required },
+            status: { required },
+            // note: { required },
+        }
+    },
+
     methods: {
         addNewBook() {
-            let payload = {
+            this.v$.$validate()
+            if (!this.v$.$error) {
+                let payload = {
                     id: Date.now(),
                     title: this.title,
                     author: this.author,
-                    date: this.date,
+                    date: this.otherDate,
                     status: this.status,
                     stars: this.stars,
                     note: this.note,
                 }
-            this.$store.commit('addNewBook', payload)
+                this.$store.commit('addNewBook', payload)
+                this.closePoppup()
+            } 
         },
 
         closePoppup() {
             this.$store.commit('changePopupActive')
         }
     },
-
-
-
     computed: {
         ...mapGetters([
             'popupActive',
             'selectOptions'
-        ])
+        ]),
+
+        otherDate() {
+            // return (this.date.slice(8, 10) + '.' + this.date.slice(5, 7) + '.' + this.date.slice(0, 4)) 22.03.2023
+            return (this.date.slice(8, 10) + '.' + this.date.slice(5, 7) + '.' + this.date.slice(2, 4)) // 22.03.23
+        },
+
+        titleError() {
+            const errors = []
+        }
     }
     
 }
+
+
 </script>
 <style lang="scss" scoped>
 @import "@/assets/variables.scss";
@@ -165,6 +199,10 @@ export default {
 
                     label {
                         font-size: 17px;
+                        &::after{
+                            content: "*";
+                            color: $orange;
+                        }
                     }
 
                     input, select {
@@ -181,6 +219,15 @@ export default {
                         background: #152A3D;
                         padding: inherit;
                     }
+                }
+
+                .error_title {
+                    margin: 0 7px 10px;
+                    text-align: center;
+                    font-size: 14px;
+                    color: $red;
+                    color: $orange;
+
                 }
 
                 .textarea_label {
@@ -232,7 +279,7 @@ export default {
 }
 
 .v-enter-active, .v-leave-active {
-  transition: opacity 0.2s ease;
+  transition: opacity 0.3s ease;
 }
 
 .v-enter-from, .v-leave-to {
